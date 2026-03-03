@@ -3,175 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Our Wedding</title>
+    <title>Our Wedding Invitation</title>
     <style>
         :root {
             --envelope-color: #fcfbf7;
             --flap-color: #f5f3ed;
             --accent: #c5a059;
-            --transition-speed: 2.5s; 
-            --easing: cubic-bezier(0.45, 0.05, 0.55, 0.95);
-            --lace-pattern: radial-gradient(circle at center, rgba(0,0,0,0.03) 1px, transparent 1px), 
-                            radial-gradient(circle at center, rgba(0,0,0,0.02) 4px, transparent 5px);
+            --transition-speed: 2.2s; 
+            --easing: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Basic Reset */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            background-color: #d1d1d1;
-            font-family: 'Georgia', serif;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
+        body, html { 
+            margin: 0; padding: 0; 
+            height: 100%; width: 100%; 
+            background-color: #d1d1d1; 
+            font-family: 'Georgia', serif; 
+            overflow: hidden; 
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Perspective wrapper for mobile 3D */
-        .stage {
-            width: 100vw;
-            height: 100vh;
-            perspective: 1200px;
-            overflow: hidden;
+        .stage { 
+            width: 100vw; 
+            height: 100vh; 
+            perspective: 1500px; 
+            position: relative;
+            background: #e0e0e0;
         }
 
         .envelope-full {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            position: absolute; 
+            width: 100%; height: 100%;
             background-color: var(--envelope-color);
             background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transform-style: preserve-3d;
-            transition: transform 1.2s var(--easing);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10; transform-style: preserve-3d;
         }
 
-        /* The 3D Flap */
+        /* Deep Flap Adjustment */
         .flap {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 50%;
-            background-image: url('envelopetop.jpg');
-            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
-            transform-origin: top;
-            transform: rotateX(0deg);
+            position: absolute; 
+            top: 0; 
+            width: 100%; 
+            /* Flap now comes down to 50% of the screen height */
+            height: 50vh; 
+            background-image: url('envelopetop.jpg'); 
+            background-color: var(--flap-color);
+            background-size: cover;
+            background-position: center;
+            
+            /* Deep V-shape: points exactly to the center (50%, 100%) */
+            clip-path: polygon(0% 0%, 100% 0%, 100% 10%, 50% 100%, 0% 10%);
+            
+            transform-origin: top; 
             transition: transform var(--transition-speed) var(--easing);
-            z-index: 5;
-            -webkit-tap-highlight-color: transparent;
+            z-index: 15;
+            filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
         }
 
-
-        /* The Emblem */
+        /* Emblem positioned at the tip of the deep V */
         .emblem {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background-image: url('mp.png');
- 	    background-repeat: no-repeat;
- 	    background-position: center;
- 	    background-size: contain;
-            border-radius: 50%;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 50px;
-            z-index: 6;
-            transition: all 1s var(--easing);
-            transform: translateZ(25px); 
-            border: 2px solid rgba(255,255,255,0.2);
+            position: absolute; 
+            top: 42vh; /* Adjusted to sit naturally on the deep point */
+            width: 150px; 
+            height: 150px;
+            background-image: url('mp.png'); 
+            background-repeat: no-repeat;
+            background-position: center; 
+            background-size: contain;
+            z-index: 20; 
+            transition: all 0.8s var(--easing); 
+            transform: translateZ(35px); 
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Container for the PDF */
+        /* Internal Scrollable Card */
         .invite-card {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%; 
             background: white;
-            opacity: 0;
-            transition: opacity 1.5s ease 1s; 
-            position: absolute;
-            top: 0;
-            left: 0;
+            opacity: 0; 
+            position: absolute; top: 0; left: 0; 
             z-index: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transition: opacity 1s ease 0.8s;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .scroll-content {
+            padding: 40px 25px 100px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Fallback button for mobile Safari */
-        .mobile-fallback {
-            position: absolute;
-            bottom: 20px;
-            padding: 15px 30px;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 16px;
-            z-index: 20;
-            display: none;
+        .details { text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }
+        .details h1 { color: var(--accent); font-size: 36px; margin: 15px 0; }
+        .details p { font-size: 13px; letter-spacing: 2px; color: #666; text-transform: uppercase; }
+
+        /* RSVP Form */
+        .rsvp-section {
+            width: 100%; max-width: 320px;
+            padding: 30px; border: 1px solid #f0eee9;
+            background: #fff; margin-top: 20px;
         }
 
-        /* Opening Animation */
-        .open .flap {
-            transform: rotateX(180deg);
-            z-index: 0;
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 10px; color: var(--accent); margin-bottom: 8px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+
+        .submit-btn { 
+            width: 100%; padding: 16px; background: var(--accent); color: white; 
+            border: none; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
         }
 
-        .open .emblem {
-            opacity: 0;
-            transform: translateZ(100px) scale(0);
-            pointer-events: none;
+        /* Open Animations */
+        .open .flap { transform: rotateX(155deg); z-index: 5; }
+        .open .emblem { opacity: 0; transform: translateY(-40px) scale(0.5); pointer-events: none; }
+        .open .invite-card { opacity: 1; z-index: 25; }
+
+        /* Confetti */
+        .flower { position: fixed; top: -50px; z-index: 99; pointer-events: none; color: white; }
+        @keyframes fall { 
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
+            10% { opacity: 1; } 
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
         }
-
-        .open .invite-card {
-            opacity: 1;
-            z-index: 12;
-        }
-
-        /* Display fallback button only on small screens when opened */
-        @media (max-width: 768px) {
-            .open .mobile-fallback {
-                display: block;
-            }
-        }
-
-.flower {
-    position: fixed;
-    top: -50px;
-    z-index: 99; /* Ensures they fall over the PDF */
-    pointer-events: none; /* Guests can still click the PDF through the flowers */
-    user-select: none;
-    color: white; /* Pure white flowers */
-    line-height: 1;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-}
-
-@keyframes fall {
-    0% { 
-        transform: translateY(0) rotate(0deg) translateX(0); 
-        opacity: 0; 
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { 
-        transform: translateY(110vh) rotate(450deg) translateX(50px); 
-        opacity: 0; 
-    }
-}
     </style>
 </head>
 <body>
@@ -179,69 +132,82 @@
     <div class="stage">
         <div class="envelope-full" id="envelope" onclick="openInvite()" ontouchstart="openInvite()">
             <div class="flap"></div>
+            
             <div class="emblem"></div>
             
-            <div class="invite-card">
-                <iframe src="invitation.pdf#toolbar=0&navpanes=0&view=FitH" type="application/pdf"></iframe>
-                
-                <a href="invitation.pdf" class="mobile-fallback" target="_blank">View Invitation Fullscreen</a>
+            <div class="invite-card" id="card">
+                <div class="scroll-content">
+                    <div class="details">
+                        <p>Join us for the wedding of</p>
+                        <h1>Sarah & James</h1>
+                        <p>October 24, 2026</p>
+                        <p>California</p>
+                        <div style="margin-top: 40px; color: var(--accent); animation: bounce 2s infinite;">↓</div>
+                        <p style="font-size: 9px; margin-top: 10px;">SCROLL TO RSVP</p>
+                    </div>
+
+                    <div class="rsvp-section">
+                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">RSVP</h2>
+                        <div id="form-body">
+                            <div class="form-group">
+                                <label>FULL NAME</label>
+                                <input type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>PHONE NUMBER</label>
+                                <input type="tel">
+                            </div>
+                            <div class="form-group">
+                                <label>ATTENDING?</label>
+                                <div style="display: flex; gap: 20px; font-size: 14px; margin-top: 10px;">
+                                    <label><input type="radio" name="r"> YES</label>
+                                    <label><input type="radio" name="r"> NO</label>
+                                </div>
+                            </div>
+                            <button class="submit-btn" onclick="done()">Submit</button>
+                        </div>
+                        <div id="done-msg" style="display:none; text-align: center; padding: 20px;">
+                            <p style="color: var(--accent);">Response Sent!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         function openInvite() {
-            const envelope = document.getElementById('envelope');
-            if (!envelope.classList.contains('open')) {
-                envelope.classList.add('open');
-		startFlowerFall();
+            const env = document.getElementById('envelope');
+            if (!env.classList.contains('open')) {
+                env.classList.add('open');
+                startPetals();
             }
         }
 
-        // Prevent zoom on double tap for better mobile feel
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
+        function done() {
+            document.getElementById('form-body').style.display = 'none';
+            document.getElementById('done-msg').style.display = 'block';
+        }
 
-function startFlowerFall() {
-    // You can call this container 'body' or '.stage'
-    const container = document.body; 
-    const flowerChars = ['✿', '❀', '❃', '✻', '✧']; // Various floral/petal shapes
-    
-    // Create 30 individual flowers
-    for (let i = 0; i < 50; i++) {
-        setTimeout(() => {
-            const flower = document.createElement('div');
-            flower.className = 'flower';
-            
-            // Pick a random floral character
-            flower.innerText = flowerChars[Math.floor(Math.random() * flowerChars.length)];
-            
-            // Randomize appearance and physics
-            const startX = Math.random() * 100; // Random horizontal start
-            const duration = 5 + Math.random() * 5; // Fall speed between 5-10 seconds
-            const size = 10 + Math.random() * 25; // Size between 10px and 35px
-            const delay = Math.random() * 3; // Random start delay
-            
-            flower.style.left = startX + 'vw';
-            flower.style.fontSize = size + 'px';
-            flower.style.opacity = '0'; // Start invisible
-            
-            // Apply the animation
-            flower.style.animation = `fall ${duration}s linear forwards`;
-            
-            container.appendChild(flower);
-            
-            // Cleanup: remove the element after it finishes falling to save memory
-            setTimeout(() => {
-                flower.remove();
-            }, duration * 1000);
-            
-        }, i * 200); // Stagger the creation so they don't all drop at once
-    }
-}
+        function startPetals() {
+            const chars = ['✿', '❀', '❃']; 
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const f = document.createElement('div');
+                    f.className = 'flower';
+                    f.innerText = chars[Math.floor(Math.random() * chars.length)];
+                    f.style.left = Math.random() * 100 + 'vw';
+                    f.style.fontSize = (15 + Math.random() * 15) + 'px';
+                    f.style.animation = `fall ${4 + Math.random() * 5}s linear forwards`;
+                    document.body.appendChild(f);
+                    setTimeout(() => f.remove(), 9000);
+                }, i * 160);
+            }
+        }
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
