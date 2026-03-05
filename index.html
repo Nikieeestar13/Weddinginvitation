@@ -24,21 +24,36 @@
 
         .stage { 
             width: 100vw; 
-            height: 100vh; 
+            height: 100vh;
             perspective: 1500px; 
             position: relative;
             background: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .envelope-full {
-            position: absolute; 
-            width: 100%; height: 100%;
+            position: relative; 
+            /* 20% Padding effect: Width 80% and Height 80% */
+            width: 80%; 
+            height: 70%;
             background-color: var(--envelope-color);
             background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
             display: flex; justify-content: center; align-items: center;
-            z-index: 10; transform-style: preserve-3d;
+            z-index: 10; 
+            transform-style: preserve-3d;
+            transition: all 1s var(--easing); /* Smoothly expand to full screen */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        /*location button*/
+
+        /* Expand envelope to full screen when opened */
+        .envelope-full.open {
+            width: 100%;
+            height: 100%;
+            box-shadow: none;
+        }
+	  /*location button*/
 .wedding-button {
     background-color: #f4f1ea; /* Soft Cream */
     color: #5d5d5d; /* Elegant Grey */
@@ -58,31 +73,27 @@
     background-color: #d4af37;
     color: white;
   }
-        /* Deep Flap Adjustment */
+
         .flap {
             position: absolute; 
             top: 0; 
             width: 100%; 
-            /* Flap now comes down to 50% of the screen height */
-            height: 50vh; 
+            height: 50%; 
             background-image: url('envelopetop.jpg'); 
             background-color: var(--flap-color);
             background-size: cover;
             background-position: center;
-            
-            /* Deep V-shape: points exactly to the center (50%, 100%) */
-            clip-path: polygon(0% 0%, 120% 0%, 120% 20%, 50% 120%, 0% 50%);
-            
+            clip-path: polygon(0% 0%, 100% 0%, 100% 10%, 50% 100%, 0% 10%);
             transform-origin: top; 
             transition: transform var(--transition-speed) var(--easing);
             z-index: 15;
             filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
         }
 
-        /* Emblem positioned at the tip of the deep V */
         .emblem {
             position: absolute; 
-            top: 42vh; /* Adjusted to sit naturally on the deep point */
+            /* Centered relative to the flap point */
+            top: calc(50% - 75px); 
             width: 150px; 
             height: 150px;
             background-image: url('mp.png'); 
@@ -95,10 +106,9 @@
             cursor: pointer;
         }
 
-        /* Internal Scrollable Card */
         .invite-card {
             width: 100%; height: 100%; 
-            background: white;
+            background: #fffcf6;
             opacity: 0; 
             position: absolute; top: 0; left: 0; 
             z-index: 1;
@@ -116,20 +126,17 @@
         .details h1 { color: var(--accent); font-size: 36px; margin: 15px 0; }
         .details p { font-size: 13px; letter-spacing: 2px; color: #666; text-transform: uppercase; }
 
-        /* RSVP Form */
         .rsvp-section {
             width: 100%; max-width: 320px;
             padding: 10px; border: 1px solid #f0eee9;
             background: #fff; margin-top: 20px;
         }
-        
 
         /* Open Animations */
         .open .flap { transform: rotateX(155deg); z-index: 5; }
         .open .emblem { opacity: 0; transform: translateY(-40px) scale(0.5); pointer-events: none; }
         .open .invite-card { opacity: 1; z-index: 25; }
 
-        /* Confetti */
         .flower { position: fixed; top: -50px; z-index: 99; pointer-events: none; color: #c1a37f; }
         @keyframes fall { 
             0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
@@ -143,25 +150,31 @@
     <div class="stage">
         <div class="envelope-full" id="envelope" onclick="openInvite()" ontouchstart="openInvite()">
             <div class="flap"></div>
-            
             <div class="emblem"></div>
             
             <div class="invite-card" id="card">
                 <div class="scroll-content">
                     <div class="details">
                         <p>Join us for the wedding of</p>
-                        <h1>Malaika & Pratik</h1>
-                        <p>May 6, 2026</p>
-                        <p>Deussua <br><br> <img src="QR.png" width=40%;>
-                    <br><br>
-                    <a href="https://maps.app.goo.gl/sxFPXouoKX6Tcn4J7" class="wedding-button">View Map and Directions</a></p>
+			<p><img src="card face.png" style="width: 80%; margin-top: 10px;"></p>
+			<p><img src="date.png" style="width: 80%;"></p>
+                        <p><img src="QR.png" style="width: 30%; "></p>
+			<p><a href="https://maps.app.goo.gl/sxFPXouoKX6Tcn4J7" class="wedding-button">View Map and Directions</a></p>
+                        
+			<p><img src="flowers.png" style="width: 80%; "></p><br><br>
+			<h1 style="text-align: center; color: var(--accent); font-weight: normal;">RECEPTION</h1>
+			<p><img src="reception.png" style="width: 80%; "></p>
+			<p><a href="https://maps.app.goo.gl/w5xf9HBfStfvVQBJ6" class="wedding-button">View Map and Directions to Venue</a></p>
+			
+
+			<p><br><br><img src="flowers2.png" style="width: 80%; "></p>
                         <div style="margin-top: 40px; color: var(--accent); animation: bounce 2s infinite;">↓</div>
                         <p style="font-size: 9px; margin-top: 10px;">SCROLL TO RSVP</p>
                     </div>
                    
                     <div class="rsvp-section">
-                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">Your love and support mean the world to us. As we prepare to tie the knot, we’d love to know if you can join the celebration</h2>
-                         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeHRSsmXvwDdFQqRgz-Df66g6Gm9XBZ9-TXUd8YMmH3Kw6vrQ/viewform?embedded=true" width="100%" height="605" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">RSVP</h2>
+                         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeHRSsmXvwDdFQqRgz-Df66g6Gm9XBZ9-TXUd8YMmH3Kw6vrQ/viewform?embedded=true" width="100%" height="1000px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                         <div id="done-msg" style="display:none; text-align: center; padding: 20px;">
                             <p style="color: var(--accent);">Response Sent!</p>
                         </div>
@@ -178,11 +191,6 @@
                 env.classList.add('open');
                 startPetals();
             }
-        }
-
-        function done() {
-            document.getElementById('form-body').style.display = 'none';
-            document.getElementById('done-msg').style.display = 'block';
         }
 
         function startPetals() {
@@ -207,13 +215,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
