@@ -8,7 +8,7 @@
         :root {
             --envelope-color: #fcfbf7;
             --flap-color: #f5f3ed;
-            --accent: #c5a059;
+            --accent: #b48b58;
             --transition-speed: 2.2s; 
             --easing: cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -16,7 +16,7 @@
         body, html { 
             margin: 0; padding: 0; 
             height: 100%; width: 100%; 
-            background-color: #d1d1d1; 
+            background-color: #ffffff; 
             font-family: 'Georgia', serif; 
             overflow: hidden; 
             -webkit-tap-highlight-color: transparent;
@@ -35,44 +35,42 @@
 
         .envelope-full {
             position: relative; 
-            /* 20% Padding effect: Width 80% and Height 80% */
             width: 80%; 
             height: 70%;
-            background-color: var(--envelope-color);
+            background-color: #fffcf6;
             background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
             display: flex; justify-content: center; align-items: center;
             z-index: 10; 
             transform-style: preserve-3d;
-            transition: all 1s var(--easing); /* Smoothly expand to full screen */
+            transition: all 1s var(--easing);
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        /* Expand envelope to full screen when opened */
         .envelope-full.open {
             width: 100%;
             height: 100%;
             box-shadow: none;
         }
-	  /*location button*/
-.wedding-button {
-    background-color: #f4f1ea; /* Soft Cream */
-    color: #5d5d5d; /* Elegant Grey */
-    padding: 12px 28px;
-    text-decoration: none;
-    font-family: 'Times New Roman', serif;
-    border: 1px solid #d4af37; /* Gold Border */
-    border-radius: 2px;
-    display: inline-block;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 14px;
-  }
 
-  .wedding-button:hover {
-    background-color: #d4af37;
-    color: white;
-  }
+        .wedding-button {
+            background-color: #b48b58;
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            font-family: 'Times New Roman', serif;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 9px;
+        }
+
+        .wedding-button:hover {
+            background-color: #f4f1ea;
+            color:#5d5d5d;
+        }
 
         .flap {
             position: absolute; 
@@ -83,7 +81,7 @@
             background-color: var(--flap-color);
             background-size: cover;
             background-position: center;
-            clip-path: polygon(0% 0%, 140% 0%, 120% 30%, 50% 100%, 0% 50%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 10%, 50% 100%, 0% 10%);
             transform-origin: top; 
             transition: transform var(--transition-speed) var(--easing);
             z-index: 15;
@@ -92,7 +90,6 @@
 
         .emblem {
             position: absolute; 
-            /* Centered relative to the flap point */
             top: calc(50% - 75px); 
             width: 150px; 
             height: 150px;
@@ -108,7 +105,7 @@
 
         .invite-card {
             width: 100%; height: 100%; 
-            background: #fffcf6;
+            background: #ffffff;
             opacity: 0; 
             position: absolute; top: 0; left: 0; 
             z-index: 1;
@@ -132,16 +129,28 @@
             background: #fff; margin-top: 20px;
         }
 
-        /* Open Animations */
         .open .flap { transform: rotateX(155deg); z-index: 5; }
         .open .emblem { opacity: 0; transform: translateY(-40px) scale(0.5); pointer-events: none; }
         .open .invite-card { opacity: 1; z-index: 25; }
 
-        .flower { position: fixed; top: -50px; z-index: 99; pointer-events: none; color: #c1a37f; }
+        /* --- NEW WHITE PETAL STYLES --- */
+        .petal { 
+            position: fixed; 
+            top: -50px; 
+            z-index: 99; 
+            pointer-events: none; 
+            background-color: #673147;
+            /* Creates a delicate petal shape */
+            border-radius: 150% 0 150% 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            opacity: 0.9;
+        }
+
         @keyframes fall { 
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
+            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; } 
             10% { opacity: 1; } 
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
+            50% { transform: translateY(50vh) rotate(180deg) translateX(50px); }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; } 
         }
     </style>
 </head>
@@ -155,25 +164,19 @@
             <div class="invite-card" id="card">
                 <div class="scroll-content">
                     <div class="details">
-                        <p>Join us for the wedding of</p>
-			<p><img src="card face.png" style="width: 80%; margin-top: 10px;"></p>
-			<p><img src="Date.png" style="width: 80%;"></p>
-                        <p><img src="QR.png" style="width: 30%; "></p>
-			<p><a href="https://maps.app.goo.gl/sxFPXouoKX6Tcn4J7" class="wedding-button">View Map and Directions</a></p>
-                        
-			<p><img src="flowers.png" style="width: 80%; "></p><br><br>
-			<h1 style="text-align: center; color: var(--accent); font-weight: normal;">RECEPTION</h1>
-			<p><img src="reception.png" style="width: 80%; "></p>
-			<p><a href="https://maps.app.goo.gl/w5xf9HBfStfvVQBJ6" class="wedding-button">View Map and Directions to Venue</a></p>
-			
-
-			<p><br><br><img src="flowers2.png" style="width: 80%; "></p>
+                        <p><img src="flowers.png" style="width: 80%; transform: rotate(180deg); "></p>
+                        <p><img src="card face.png" width="97%";></p>
+                        <p><a href="https://maps.app.goo.gl/sxFPXouoKX6Tcn4J7" class="wedding-button">View Map and Directions</a></p>
+                        <h3 style="text-align: center; color: var(--accent); font-weight: normal;">RECEPTION</h3>
+                        <p><img src="reception.png" style="width: 80%; "></p>
+                        <p><a href="https://maps.app.goo.gl/w5xf9HBfStfvVQBJ6" class="wedding-button">View Map and Directions to Venue</a></p>
+                        <p><br><br><img src="flowers.png" style="width: 80%; "></p>
                         <div style="margin-top: 40px; color: var(--accent); animation: bounce 2s infinite;">↓</div>
                         <p style="font-size: 9px; margin-top: 10px;">SCROLL TO RSVP</p>
                     </div>
                    
                     <div class="rsvp-section">
-                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">RSVP</h2>
+                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">See you there!</h2>
                          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeHRSsmXvwDdFQqRgz-Df66g6Gm9XBZ9-TXUd8YMmH3Kw6vrQ/viewform?embedded=true" width="100%" height="1000px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                         <div id="done-msg" style="display:none; text-align: center; padding: 20px;">
                             <p style="color: var(--accent);">Response Sent!</p>
@@ -194,18 +197,26 @@
         }
 
         function startPetals() {
-            const chars = ['✿', '❀', '❃']; 
+            // Increased the petal count for a richer effect
             for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
-                    const f = document.createElement('div');
-                    f.className = 'flower';
-                    f.innerText = chars[Math.floor(Math.random() * chars.length)];
-                    f.style.left = Math.random() * 100 + 'vw';
-                    f.style.fontSize = (15 + Math.random() * 15) + 'px';
-                    f.style.animation = `fall ${4 + Math.random() * 5}s linear forwards`;
-                    document.body.appendChild(f);
-                    setTimeout(() => f.remove(), 9000);
-                }, i * 160);
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    
+                    // Randomize size for realism
+                    const size = (Math.random() * 10 + 10) + 'px';
+                    p.style.width = size;
+                    p.style.height = size;
+                    
+                    p.style.left = Math.random() * 100 + 'vw';
+                    
+                    // Randomize animation speed
+                    const duration = (Math.random() * 3 + 4) + 's';
+                    p.style.animation = `fall ${duration} linear forwards`;
+                    
+                    document.body.appendChild(p);
+                    setTimeout(() => p.remove(), 7000);
+                }, i * 150);
             }
         }
 
@@ -215,4 +226,3 @@
     </script>
 </body>
 </html>
-
