@@ -16,8 +16,8 @@
         body, html { 
             margin: 0; padding: 0; 
             height: 100%; width: 100%; 
-            background-color: #ffffff; 
-            font-family: 'Georgia', serif; 
+            background-color: #fffcf6; 
+	    font-family: Garamond, serif;
             overflow: hidden; 
             -webkit-tap-highlight-color: transparent;
         }
@@ -53,8 +53,8 @@
         }
 
         .wedding-button {
-            background-color: #b48b58;
-            color: white;
+            background-color:#b48b58;
+            color:#fffcf6;
             padding: 12px 28px;
             text-decoration: none;
             font-family: 'Times New Roman', serif;
@@ -64,11 +64,11 @@
             transition: all 0.3s ease;
             letter-spacing: 1px;
             text-transform: uppercase;
-            font-size: 9px;
+            font-size: 11px;
         }
 
         .wedding-button:hover {
-            background-color: #f4f1ea;
+            background-color: #b48b58;
             color:#5d5d5d;
         }
 
@@ -105,7 +105,7 @@
 
         .invite-card {
             width: 100%; height: 100%; 
-            background: #ffffff;
+            background: #fffcf6;
             opacity: 0; 
             position: absolute; top: 0; left: 0; 
             z-index: 1;
@@ -115,7 +115,7 @@
         }
 
         .scroll-content {
-            padding: 40px 25px 100px;
+            padding: 40px 0px 100px;
             display: flex; flex-direction: column; align-items: center;
         }
 
@@ -124,9 +124,9 @@
         .details p { font-size: 13px; letter-spacing: 2px; color: #666; text-transform: uppercase; }
 
         .rsvp-section {
-            width: 100%; max-width: 320px;
+            width: 100%; max-width: 3200px;
             padding: 10px; border: 1px solid #f0eee9;
-            background: #fff; margin-top: 20px;
+            background:#643f00; margin-top: 20px;
         }
 
         .open .flap { transform: rotateX(155deg); z-index: 5; }
@@ -139,10 +139,9 @@
             top: -50px; 
             z-index: 99; 
             pointer-events: none; 
-            background-color: #673147;
             /* Creates a delicate petal shape */
             border-radius: 150% 0 150% 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 20px 5px rgba(0,0,0,0.05);
             opacity: 0.9;
         }
 
@@ -164,19 +163,27 @@
             <div class="invite-card" id="card">
                 <div class="scroll-content">
                     <div class="details">
-                        <p><img src="flowers.png" style="width: 80%; transform: rotate(180deg); "></p>
+<div class="cardf" style="padding:25px;">
+			<h3 style="text-align: center; color: #737373; font-family: Garamond, serif; font-weight:normal; font-style: italic;">We,</h3>
                         <p><img src="card face.png" width="97%";></p>
+			<h3 style="text-align: center; font-family: Garamond, serif; color: #737373; font-weight:normal; font-style: italic;">with full hearts, joyfully invite you to share our joy as we unite in marriage</h3></div><br><br>
+
+			<div style="width:100%; background-color:#643f00; margin: 0;
+  padding: 0;">		<p><img src="flowers2.png" style="width: 50%; transform:rotate(180deg)"></p>
+			<p><img src="Date2.png" width="70%";></p>
                         <p><a href="https://maps.app.goo.gl/sxFPXouoKX6Tcn4J7" class="wedding-button">View Map and Directions</a></p>
-                        <h3 style="text-align: center; color: var(--accent); font-weight: normal;">RECEPTION</h3>
+			<p><img src="flowers2.png" style="width: 50%; "></p> </div>
+
+                        <h2 style="text-align: center; color: var(--accent); font-family: Garamond, serif; font-weight: 			bold; ">RECEPTION</h2>
                         <p><img src="reception.png" style="width: 80%; "></p>
                         <p><a href="https://maps.app.goo.gl/w5xf9HBfStfvVQBJ6" class="wedding-button">View Map and Directions to Venue</a></p>
-                        <p><br><br><img src="flowers.png" style="width: 80%; "></p>
-                        <div style="margin-top: 40px; color: var(--accent); animation: bounce 2s infinite;">↓</div>
+                        <p><img src="flowers.png" style="width: 50%;"></p>
+                        <div style=" color: var(--accent); animation: bounce 2s infinite;">↓</div>
                         <p style="font-size: 9px; margin-top: 10px;">SCROLL TO RSVP</p>
                     </div>
                    
                     <div class="rsvp-section">
-                        <h2 style="text-align: center; color: var(--accent); font-weight: normal;">See you there!</h2>
+                        <h2 style="text-align: center; color: white; font-weight: normal;">See you there!</h2>
                          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeHRSsmXvwDdFQqRgz-Df66g6Gm9XBZ9-TXUd8YMmH3Kw6vrQ/viewform?embedded=true" width="100%" height="1000px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                         <div id="done-msg" style="display:none; text-align: center; padding: 20px;">
                             <p style="color: var(--accent);">Response Sent!</p>
@@ -197,28 +204,41 @@
         }
 
         function startPetals() {
-            // Increased the petal count for a richer effect
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const p = document.createElement('div');
-                    p.className = 'petal';
-                    
-                    // Randomize size for realism
-                    const size = (Math.random() * 10 + 10) + 'px';
-                    p.style.width = size;
-                    p.style.height = size;
-                    
-                    p.style.left = Math.random() * 100 + 'vw';
-                    
-                    // Randomize animation speed
-                    const duration = (Math.random() * 3 + 4) + 's';
-                    p.style.animation = `fall ${duration} linear forwards`;
-                    
-                    document.body.appendChild(p);
-                    setTimeout(() => p.remove(), 7000);
-                }, i * 150);
-            }
-        }
+    // Define your wedding color palette here
+    const colors = [ '#ffffff','#ffd699'
+        /*'#ffd699', // Pure White
+        '#cf3073', // Soft Rose
+        '#ff914d', // Ivory/Champagne
+        '#e8d3b9', // Muted Gold/Sand
+        '#e2a9f1'  // Pale Pink*/
+    ];
+
+    for (let i = 0; i < 60; i++) { // Increased count for colorful effect
+        setTimeout(() => {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            
+            // Randomly pick a color from the array
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            p.style.backgroundColor = randomColor;
+            
+            // Randomize size
+            const size = (Math.random() * 10 + 10) + 'px';
+            p.style.width = size;
+            p.style.height = size;
+            
+            p.style.left = Math.random() * 100 + 'vw';
+            
+            // Randomize speed and rotation
+            const duration = (Math.random() * 3 + 4) + 's';
+            const delay = (Math.random() * 2) + 's';
+            p.style.animation = `fall ${duration} ${delay} linear forwards`;
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 8000);
+        }, i * 120);
+    }
+}
 
         document.addEventListener('touchstart', (e) => {
             if (e.touches.length > 1) e.preventDefault();
