@@ -28,6 +28,7 @@
             perspective: 1500px; 
             position: relative;
             background: #e0e0e0;
+            background-image: url('envelopetop.jpg'); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -77,7 +78,6 @@
             top: 0; 
             width: 100%; 
             height: 50%; 
-            background-image: url('envelopetop.jpg'); 
             background-color: var(--flap-color);
             background-size: cover;
             background-position: center;
@@ -163,11 +163,12 @@
             
             <div class="invite-card" id="card">
                 <div class="scroll-content">
-                    <div class="details">
+                    <div class="details"><p><img src="flowers.png" style="width: 50%; transform:rotate(180deg);"></p>
 <div class="cardf" style="padding:10%;">
-			<h4 style="text-align: center; color: #737373; font-family: Garamond, serif; font-weight:normal; font-size:20px; font-style: italic;">We,</h4>
+			<p style="color:#643f00;">“The lord has done great things for us and we are filled with joy”<br>psalm 126:3</p>
+			<h6 style="text-align: center; color: #737373; font-family: Garamond, serif; font-weight:normal; font-size:10px; font-style: italic;">We,</h6>
                         <p><img src="card face.png" width="97%";></p>
-			<h4 style="text-align: center; font-family: Garamond, serif; color: #737373; font-weight:normal; font-size:20px; font-style: italic;">with full hearts, joyfully invite you to share our joy as we unite in marriage</h4></div><br><br>
+			<h6 style="text-align: center; font-family: Garamond, serif; color: #737373; font-weight:normal; font-size:10px; font-style: italic;">with full hearts, joyfully invite you to share our joy as we unite in marriage</h6></div><br><br>
 
 			<div class="nups" style="width:100%; background-color:#643f00; margin: 0;
   padding-top: 10px; padding-bottom: 10px;">		<p><img src="flowers2.png" style="width: 50%; transform:rotate(180deg)"></p><br>
@@ -195,13 +196,26 @@
     </div>
 
     <script>
-        function openInvite() {
-            const env = document.getElementById('envelope');
-            if (!env.classList.contains('open')) {
-                env.classList.add('open');
-                startPetals();
-            }
-        }
+        const audio = new Audio('song1.mp3');
+audio.preload = "auto"; // Tell the browser to get it ready
+
+function openInvite() {
+    const env = document.getElementById('envelope');
+    
+    if (!env.classList.contains('open')) {
+        env.classList.add('open');
+        startPetals();
+        
+        // 2. Play the music
+        // We use a .catch() block to debug if the browser blocks it
+        audio.play().then(() => {
+            console.log("Music started successfully");
+        }).catch(error => {
+            console.error("Music failed to play: ", error);
+            alert("Please ensure 'song1.mp3' is in the same folder as this file!");
+        });
+    }
+}
 
         function startPetals() {
     // Define your wedding color palette here
