@@ -155,7 +155,9 @@
     </style>
 </head>
 <body>
-
+<audio id="inviteMusic" preload="auto" playsinline>
+    <source src="song1.mp3" type="audio/mpeg">
+</audio>
     <div class="stage">
         <div class="envelope-full" id="envelope" onclick="openInvite()" ontouchstart="openInvite()">
             <div class="flap"></div>
@@ -164,7 +166,7 @@
             <div class="invite-card" id="card">
                 <div class="scroll-content">
                     <div class="details"><p><img src="flowers.png" style="width: 50%; transform:rotate(180deg);"></p>
-<div class="cardf" style="padding:10%;">
+<div class="cardf" >
 			<p style="color:#643f00;">“The lord has done great things for us and we are filled with joy”<br>psalm 126:3</p>
 			<h6 style="text-align: center; color: #737373; font-family: Garamond, serif; font-weight:normal; font-size:10px; font-style: italic;">We,</h6>
                         <p><img src="card face.png" width="97%";></p>
@@ -196,24 +198,29 @@
     </div>
 
     <script>
-        const audio = new Audio('song1.mp3');
-audio.preload = "auto"; // Tell the browser to get it ready
 
 function openInvite() {
     const env = document.getElementById('envelope');
-    
+    const audio = document.getElementById('inviteMusic');
+
     if (!env.classList.contains('open')) {
         env.classList.add('open');
-        startPetals();
         
-        // 2. Play the music
-        // We use a .catch() block to debug if the browser blocks it
-        audio.play().then(() => {
-            console.log("Music started successfully");
-        }).catch(error => {
-            console.error("Music failed to play: ", error);
-            alert("Please ensure 'song1.mp3' is in the same folder as this file!");
+        // 1. "Unlock" and play the audio
+        // We call .play() immediately inside the click/touchstart handler
+        audio.play().catch(error => {
+            console.log("Mobile playback blocked. Trying alternate 'unlock'...");
+            
+            // 2. Fallback: Some mobile browsers need a second trigger
+            // This 'tells' the phone the user definitely wanted sound.
+            const forcePlay = () => {
+                audio.play();
+                document.removeEventListener('click', forcePlay);
+            };
+            document.addEventListener('click', forcePlay);
         });
+
+        startPetals();
     }
 }
 
